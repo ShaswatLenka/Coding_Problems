@@ -7,8 +7,8 @@ Created on Sat Jul  7 18:14:45 2018
 """
 #Solving the word-bucket problem as asked on interactivepython.org
 
-from pythonds.graphs import Graph
-
+from pythonds.graphs import Graph, Vertex
+from pythonds.basic import Queue
 
 def buildGraph(wordFile): 
     wfile = open(wordFile, 'r')
@@ -31,3 +31,47 @@ def buildGraph(wordFile):
                 if word1 != word2:
                     g.addEdge(word1,word2)
     return g
+
+#implementing BFS
+#takes a graph and a starting vertex
+def bfs(g,start):
+  start.setDistance(0)
+  start.setPred(None)
+  vertQueue = Queue()
+  vertQueue.enqueue(start)
+  while (vertQueue.size() > 0):
+    currentVert = vertQueue.dequeue()
+    for nbr in currentVert.getConnections():
+      if (nbr.getColor() == 'white'):
+        nbr.setColor('gray')
+        nbr.setDistance(currentVert.getDistance() + 1)
+        nbr.setPred(currentVert)
+        vertQueue.enqueue(nbr)
+    currentVert.setColor('black')
+    
+ 
+    
+#traversing the word ladder
+def traverse(y):
+    x = y
+    while (x.getPred()):
+        print(x.getId())
+        x = x.getPred()
+    print(x.getId())
+
+x = buildGraph("words.txt")
+traverse(x.getVertex('poke'))
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
